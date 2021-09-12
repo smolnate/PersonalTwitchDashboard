@@ -18,6 +18,7 @@ const Home = () => {
 
       setFavoriteChannels(prevState => [...prevState, value])
 
+      //reset form
       event.target.elements.name.value = ""
     }
 
