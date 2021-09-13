@@ -3,8 +3,7 @@ import React, { useState } from "react"
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
-//const variables here
-const HOST_NAME = "https://api.twitch.tv/helix"
+
 
 const Home = () => {
 
@@ -12,58 +11,6 @@ const Home = () => {
   const [favoriteChannels, setFavoriteChannels] = useState([])
 
   //Actions
-  const getTwitchAccessToken = async () => {
-    console.log('getting access token...')
-
-    const path = `https://id.twitch.tv/oauth2/token?client_id=${process.env.TWITCH_CLIENT_ID}&client_secret=${process.env.TWITCH_SECRET_ID}&grant_type=client_credentials`
-
-    const response = await fetch(path, {
-      method: 'POST'
-    })
-
-    if (response) {
-      const json = await response.json()
-      console.log('access token: ', json.access_token)
-      return json.access_token
-    }
-  }
-  
-  const getTwitchChannel = async channelName => {
-    console.log('searching for twitch channel...')
-    if (channelName) {
-      //Get Access accessToken
-      const accessToken = await getTwitchAccessToken()
-
-      if (accessToken) {
-        //Make query request
-        const response = await fetch(`${HOST_NAME}/search/channels?query=${channelName}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Client-Id": process.env.TWITCH_CLIENT_ID //using a secret key here!
-          }
-        })
-      
-        const json = await response.json()
-        if (json.data) {
-          const { data } = json
-          const lowercaseChannelName = channelName.toLowerCase()
-          
-          const foundChannel = data.find(channel => {
-            const lowercaseDisplayName = channel.display_name.toLowerCase()
-            
-            return lowercaseChannelName === lowercaseDisplayName
-          })
-
-          return foundChannel
-        }
-      }
-
-      throw new Error("Twitch accessToken was undefined.")
-    }
-
-    throw new Error("No channelName provided.")
-  }
-
   const addChannel = async event => {
     event.preventDefault()
     const { value } = event.target.elements.name
