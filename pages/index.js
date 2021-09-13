@@ -12,6 +12,22 @@ const Home = () => {
   const [favoriteChannels, setFavoriteChannels] = useState([])
 
   //Actions
+  const getTwitchAccessToken = async () => {
+    console.log('getting access token...')
+
+    const path = `https://id.twitch.tv/oauth2/token?client_id=${process.env.TWITCH_CLIENT_ID}&client_secret=${process.env.TWITCH_SECRET_ID}&grant_type=client_credentials`
+
+    const response = await fetch(path, {
+      method: 'POST'
+    })
+
+    if (response) {
+      const json = await response.json()
+      console.log('access token: ', json.access_token)
+      return json.access_token
+    }
+  }
+  
   const getTwitchChannel = async channelName => {
     console.log('searching for twitch channel...')
     if (channelName) {
