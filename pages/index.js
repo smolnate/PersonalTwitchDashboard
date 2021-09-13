@@ -9,12 +9,27 @@ const Home = () => {
   const [favoriteChannels, setFavoriteChannels] = useState([])
 
   //Actions
-  const addChannel = event => {
+  const addChannel = async event => {
     event.preventDefault()
     const { value } = event.target.elements.name
 
     if (value) {
       console.log("value: ", value)
+
+      //Call Twitch Search API
+      const path = `https://${window.location.hostname}`
+
+      const response = await fetch(`${path}/api/twitch`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application.json'
+        }, 
+        body: JSON.stringify({ data: value })
+      })
+
+      const json = await response.json()
+
+      console.log("From the server: ", json.data)
 
       setFavoriteChannels(prevState => [...prevState, value])
 
