@@ -22,7 +22,7 @@ const Home = () => {
       const response = await fetch(`${path}/api/twitch`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application.json'
+          'Content-Type': 'application/json'
         }, 
         body: JSON.stringify({ data: value })
       })
