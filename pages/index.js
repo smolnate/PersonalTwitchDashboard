@@ -34,7 +34,7 @@ const Home = () => {
 
       console.log("From the server: ", json.data)
 
-      setFavoriteChannels(prevState => [...prevState, value])
+      setFavoriteChannels(prevState => [...prevState, json.data])
 
       //reset form
       event.target.elements.name.value = ""
@@ -61,7 +61,7 @@ const Home = () => {
       </Head>
       <div className={styles.inputContainer}>
         {renderForm()}
-        <StreamerGrid />
+        <StreamerGrid channels={favoriteChannels}/>
       </div>
     </div>
   )
