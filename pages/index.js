@@ -3,12 +3,51 @@ import React, { useState } from "react"
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
+//const variables here
+const HOST_NAME = "https://api.twitch.tv/helix"
+
 const Home = () => {
 
   //State
   const [favoriteChannels, setFavoriteChannels] = useState([])
 
   //Actions
+  const getTwitchChannel = async channelName => {
+    console.log('searching for twitch channel...')
+    if (channelName) {
+      //Get Access accessToken
+      const accessToken = await getTwitchAccessToken()
+
+      if (accessToken) {
+        //Make query request
+        const response = await fetch(`${HOST_NAME}/search/channels?query=${channelName}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Client-Id": process.env.TWITCH_CLIENT_ID //using a secret key here!
+          }
+        })
+      
+        const json = await response.json()
+        if (json.data) {
+          const { data } = json
+          const lowercaseChannelName = channelName.toLowerCase()
+          
+          const foundChannel = data.find(channel => {
+            const lowercaseDisplayName = channel.display_name.toLowerCase()
+            
+            return lowercaseChannelName === lowercaseDisplayName
+          })
+
+          return foundChannel
+        }
+      }
+
+      throw new Error("Twitch accessToken was undefined.")
+    }
+
+    throw new Error("No channelName provided.")
+  }
+
   const addChannel = async event => {
     event.preventDefault()
     const { value } = event.target.elements.name
