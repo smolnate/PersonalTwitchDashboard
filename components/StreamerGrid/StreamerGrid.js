@@ -15,11 +15,11 @@ const StreamerGrid = ({channels}) => {
 //Render Method
 const renderGridItem = channel => (
   <div key={channel.id} className={styles.gridItem}>
-    <Image layout="fill" src={channel.thumbnail_url} />
+    <Image width='100px' height='100px' src={channel.thumbnail_url} />
     <div className={styles.gridItemContent}>
-      <p>{channel.display_name}</p>
-      {channel.is_live && <p>🟢 Live Now!</p>}
-      {!channel.is_live && <p>🔴 Offline :(</p>}
+      <p>{'Channel Name: ' + channel.display_name}</p>
+      {channel.is_live && <a href={'http://twitch.tv/' + channel.broadcaster_login}> Channel Status: 🟢 Live Now! Click to watch </a>}
+      {!channel.is_live && <p>Channel Status: 🔴 Offline :(</p>}
     </div>
   </div>
 )
