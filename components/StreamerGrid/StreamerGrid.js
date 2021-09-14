@@ -4,7 +4,8 @@ import styles from '../../styles/StreamerGrid.module.css'
 import Image from 'next/image'
 
 const StreamerGrid = ({ channels, setChannels }) => {
-    //Render Method
+
+  //Render Methods
   const renderGridItem = channel => (
     <div key={channel.id} className={styles.gridItem}>
       <Image width='100px' height='100px' src={channel.thumbnail_url} />
@@ -18,16 +19,25 @@ const StreamerGrid = ({ channels, setChannels }) => {
       </div>
     </div>
   )
-    //Actions
+
+  const renderNoItems = () => (
+    <div className={styles.gridNoItems}>
+      <p>Hmmm, you aren't following any streamers!</p>
+    </div>
+  )
+
+  //Actions
   const removeChannelAction = channelId => () => {
     console.log("removing channel...")
     setChannels(channels.filter(channel => channel.id != channelId))
   } 
 
+
   return (
     <div>
       <p style={{padding: "10px"}}>
-      {channels.map(renderGridItem)}
+      {channels.length > 0 &&channels.map(renderGridItem)}
+      {channels.length == 0 && renderNoItems()}
       </p>
     </div>
   )

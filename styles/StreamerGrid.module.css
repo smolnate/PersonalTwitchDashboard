@@ -64,3 +64,15 @@
 .gridItem p {
   margin: 0;
 }
+
+.gridNoItems {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 10%;
+  background-color: #00000080;
+  color: white;
+  border-radius: 20px;
+  padding: 1em;
+  margin: 0 auto;
+}
