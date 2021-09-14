@@ -23,9 +23,9 @@ const renderGridItem = channel => (
     <Image width='100px' height='100px' src={channel.thumbnail_url} />
     <div className={styles.gridItemContent}>
       <button onClick={removeChannelAction(channel.id)}>X</button>
-      <p>{'Channel Name: ' + channel.display_name}</p>
+      <span>{'Channel Name: ' + channel.display_name}</span>
       {channel.is_live && <a href={'http://twitch.tv/' + channel.broadcaster_login}> Channel Status: 🟢 Live Now! Click to watch </a>}
-      {!channel.is_live && <p>Channel Status: 🔴 Offline :(</p>}
+      {!channel.is_live && <span>Channel Status: 🔴 Offline :(</span>}
     </div>
   </div>
 )
