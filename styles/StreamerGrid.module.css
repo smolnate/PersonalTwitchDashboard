@@ -28,9 +28,14 @@
 }
 
 .gridItem button {
-  width: 75%;
-  height: 30px;
+  position: absolute;
+  right: 0;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
   border-radius: 10px;
   border: 0;
-  margin: 1em;
+  margin-right: 5px;
+  margin-top: 5px;
+  color: red;
 }
