@@ -5,6 +5,15 @@ import styles from '../styles/Home.module.css'
 import StreamerGrid from '../components/StreamerGrid'
 
 
+/* Things to add */
+/*
+  more channel info
+  discord notification when a streamer on dashboard is live
+  refresh status every minute(?)
+  maybe in future, sync dashboard with followed channels?
+*/
+
+
 
 const Home = () => {
 
@@ -60,6 +69,7 @@ const Home = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <div className={styles.inputContainer}>
+        <h1> Personal Twitch Dashboard </h1>
         {renderForm()}
         <StreamerGrid channels={favoriteChannels}/>
       </div>

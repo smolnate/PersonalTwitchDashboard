@@ -6,7 +6,7 @@ import Image from 'next/image'
 const StreamerGrid = ({channels}) => {
   return (
     <div>
-      <h1>{`Nate's Favorite Streamers`}</h1>
+      <p></p>
       {channels.map(renderGridItem)}
     </div>
   )
