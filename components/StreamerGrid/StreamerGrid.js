@@ -3,7 +3,7 @@ import React from 'react'
 import styles from '../../styles/StreamerGrid.module.css'
 import Image from 'next/image'
 
-const StreamerGrid = ({channels}) => {
+const StreamerGrid = ({ channels, setChannels }) => {
   return (
     <div>
       <p style={{padding: "20px"}}>
@@ -14,7 +14,10 @@ const StreamerGrid = ({channels}) => {
 }
 
 //Actions
-const removeChannelAction = () => {
+const removeChannelAction = channelId => ({channels, setChannels}) => {
+  console.log("removing channel...")
+  console.log("channels: ", channels)
+  setChannels(channels.filter(channel => channel.id != channelId))
 
 }
 
