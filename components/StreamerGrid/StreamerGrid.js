@@ -6,8 +6,9 @@ import Image from 'next/image'
 const StreamerGrid = ({channels}) => {
   return (
     <div>
-      <p></p>
+      <p style={{padding: "20px"}}>
       {channels.map(renderGridItem)}
+      </p>
     </div>
   )
 }
@@ -23,9 +24,11 @@ const renderGridItem = channel => (
     <Image width='100px' height='100px' src={channel.thumbnail_url} />
     <div className={styles.gridItemContent}>
       <button onClick={removeChannelAction(channel.id)}>X</button>
-      <p>{channel.display_name}</p>
-      {channel.is_live && <a href={'http://twitch.tv/' + channel.broadcaster_login}> 🟢 Live Now! 🔗 </a>}
-      {!channel.is_live && <p>🔴 Offline</p>}
+      <p style={{fontWeight: "bold", fontSize: "16px"}}>{channel.display_name}</p>
+      <p style={{color: "grey"}}>{channel.game_name}</p>
+      <p style={{color: "grey", fontSize: "12px"}}>{channel.title}</p>
+      {channel.is_live && <a style={{fontSize: "12px"}} href={'http://twitch.tv/' + channel.broadcaster_login}> 🟢 Live Now! 🔗 </a>}
+      {!channel.is_live && <p style={{fontSize: "12px"}}>🔴 Offline</p>}
     </div>
   </div>
 )
