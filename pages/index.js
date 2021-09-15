@@ -21,6 +21,31 @@ const Home = () => {
   const [favoriteChannels, setFavoriteChannels] = useState([])
 
   //Actions
+  const setChannel = async channelName => {
+    try {
+      //get all current streamer names in list
+      const currentStreamers = favoriteChannels.map(channel => channel.display_name.toLowerCase())
+      
+      const streamerList = [...currentStreamers, channelName].join(",")
+      
+      const path = `https://${window.location.hostname}`
+
+      const response = await fetch(`${path}/api/database`, {
+        method: 'POST',
+        body: JSON.stringify({
+          key: 'CHANNELS',
+          value: streamerList
+        })
+      })
+
+      if (response.status === 200) {
+        console.log(`Set ${channelName} in DB.`)
+      }
+    } catch (error) {
+      console.warn(error.message)
+    }
+  }
+
   const addChannel = async event => {
     event.preventDefault()
     const { value } = event.target.elements.name
@@ -45,11 +70,12 @@ const Home = () => {
 
       setFavoriteChannels(prevState => [...prevState, json.data])
 
+      //set channelName string inside DB 
+      await setChannel(value)
+
       //reset form
       event.target.elements.name.value = ""
     }
-
-    
   }
 
   //Render Method
