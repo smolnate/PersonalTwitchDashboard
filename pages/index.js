@@ -1,5 +1,5 @@
 // Main entry point of your app
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import StreamerGrid from '../components/StreamerGrid'
@@ -20,7 +20,62 @@ const Home = () => {
   //State
   const [favoriteChannels, setFavoriteChannels] = useState([])
 
+  //useEffect
+  useEffect(() => {
+    console.log("fetching channels...")
+    fetchChannels()
+  }, [])
+
   //Actions
+  const fetchChannels = async () => {
+    try {
+      const path = `https://${window.location.hostname}`
+
+      //get keys from replit DB 
+      const response = await fetch(`${path}/api/database`, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'GET_CHANNELS',
+          key: 'CHANNELS'
+        })
+      })
+
+      if (response.status === 404) {
+        console.log('channels key not found')
+      }
+
+      const json = await response.json()
+
+      if (json.data) {
+        const channelNames = json.data.split(',')
+        console.log('CHANNEL NAMES: ', channelNames)
+
+        //get twitch data, set in channels state
+        const channelData = []
+        for await (const channelName of channelNames) {
+          console.log("getting twitch data for: " + channelName + "...")
+          const channelResp = await fetch(`${path}/api/twitch`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ data: channelName })
+          })
+
+          const json = await channelResp.json()
+          if (json.data) {
+            channelData.push(json.data)
+            console.log(channelData)
+          }
+        }
+
+        setFavoriteChannels(channelData)
+      }
+    } catch (error) {
+      console.warn(error.message)
+    }
+  }
+
   const setChannel = async channelName => {
     try {
       //get all current streamer names in list
